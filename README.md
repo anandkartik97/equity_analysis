@@ -1,1 +1,1 @@
-# equity_analysis
+# trading analytics
