@@ -7,9 +7,7 @@ logger = logging.getLogger(__name__)
 
 class FundamentalRatios:
 
-    def __init__(self, start_date, end_date, tickers, ratios):
-        self.start_date = start_date
-        self.end_date = end_date
+    def __init__(self, tickers, ratios):
         self.tickers = tickers
         self.ratios = ratios
 
@@ -18,8 +16,8 @@ class FundamentalRatios:
         try:
             df_fundamentals = pd.DataFrame()
 
-            for ticker in range(len(self.tickers)):
-                stock_name = str(self.tickers[ticker])
+            for ticker in self.tickers:
+                stock_name = ticker
                 fundamental_ratio = si.get_stats_valuation(stock_name)
                 fundamental_ratio.index = fundamental_ratio[0]
                 fundamental_ratio = fundamental_ratio.drop(labels=0, axis=1)
@@ -35,14 +33,12 @@ class FundamentalRatios:
             logger.info(f'An exception occurred while executing get_fundamental: {e}')
 
 if __name__ == "__main__":
-    start_date = '2022-02-02'
-    end_date = '2023-02-02'
 
     tickers = ['AAPL', 'IBM', 'MSFT', 'WMT', 'AMGN', 'AXP', 'BA', 'NKE', 'PG', 'TRV', 'UNH', 'V', 'VZ', 'WBA', 'WMT']
 
     ratios = ['Trailing P/E', 'Forward P/E', 'PEG Ratio (5 yr expected)', 'Price/Book (mrq)',
               'Price/Sales (ttm)', 'Enterprise Value/EBITDA', 'Enterprise Value/Revenue']
 
-    fundamentals = FundamentalRatios(start_date, end_date, tickers, ratios)
+    fundamentals = FundamentalRatios(tickers, ratios)
     fundamental_data = fundamentals.get_fundamental_ratios()
     logger.info('Fetched fundamental data {}'.format(len(fundamental_data)))
