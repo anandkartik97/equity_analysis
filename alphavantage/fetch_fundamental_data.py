@@ -8,7 +8,7 @@ import requests
 class FundamentalData:
     
     def __init__(self, tickers):
-        self.api_key = 'X5TYK14BC05CA95Q'
+        self.api_key = 'YOUR_API_KEY'
         self.tickers = tickers
 
 
